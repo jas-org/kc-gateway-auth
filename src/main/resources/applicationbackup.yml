@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: profile-management-service
+          uri: lb://profile-management-service
+          predicates:
+            - Path=/api/profile-management/**
+          filters:
+            - AuthFilter
+        - id: auth-service
+            uri: lb://auth-service
+            predicates:
+              - Path=/api/login/**
+
+  eureka:
+    client:
+      registerWithEureka: true
+      fetchRegistry: true
+      serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    instance:
+      hostname: jas-tech.dev
